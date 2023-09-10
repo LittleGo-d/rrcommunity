@@ -10,6 +10,8 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wh.dto.Result;
 import com.wh.entity.Shop;
 import com.wh.mapper.ShopMapper;
+import com.wh.mysqlReadWrite.annotation.Master;
+import com.wh.mysqlReadWrite.annotation.Slave;
 import com.wh.service.IShopService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.wh.utils.CacheClient;
@@ -53,6 +55,7 @@ public class ShopServiceImpl extends ServiceImpl<ShopMapper, Shop> implements IS
     private CacheClient cacheClient;
 
     @Override
+    @Slave
     public Result queryById(Long id) {
         //解决缓存穿透
         //Shop shop = queryByIdPassThrough(id);
@@ -207,6 +210,7 @@ public class ShopServiceImpl extends ServiceImpl<ShopMapper, Shop> implements IS
     }
     @Override
     @Transactional
+    @Master
     public Result update(Shop shop) {
         Long shopId = shop.getId();
         if(shopId == null){
@@ -218,6 +222,7 @@ public class ShopServiceImpl extends ServiceImpl<ShopMapper, Shop> implements IS
     }
 
     @Override
+    @Slave
     public Result queryShopByType(Integer typeId, Integer current, Double x, Double y) {
         // 1.判断是否需要根据坐标查询
         if (x == null || y == null) {

@@ -3,11 +3,25 @@ server:
 spring:
   application:
     name: rrcommunity
+#  datasource:
+#    driver-class-name: com.mysql.jdbc.Driver
+#    url: jdbc:mysql://127.0.0.1:3306/rrcommunity?useSSL=false&serverTimezone=UTC
+#    username: root
+#    password: 123
   datasource:
-    driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://127.0.0.1:3306/rrcommunity?useSSL=false&serverTimezone=UTC
-    username: root
-    password: 123
+    dynamic:
+      primary: master
+      datasource:
+        master:
+          url: jdbc:mysql://192.168.232.130:3306/rrcommunity?useUnicode=true&characterEncoding=utf8&useSSL=true&allowMultiQueries=true&verifyServerCertificate=false
+          username: root
+          password: 123456
+          driver-class-name: com.mysql.cj.jdbc.Driver
+        slave:
+          url: jdbc:mysql://192.168.232.131:3306/rrcommunity?serverTimezone=UTC&useUnicode=true&characterEncoding=utf8&useSSL=true&allowMultiQueries=true&verifyServerCertificate=false
+          username: root
+          password: slave123
+          driver-class-name: com.mysql.cj.jdbc.Driver
   redis:
     host: 192.168.232.129
     port: 6379
@@ -28,6 +42,7 @@ spring:
     default-encoding: UTF-8
 mybatis-plus:
   type-aliases-package: com.wh.entity # 别名扫描包
+  mapper-locations: classpath:mapper/*.xml # xml扫描，多个目录逗号或者分号分隔
 logging:
   level:
     com.wh: debug

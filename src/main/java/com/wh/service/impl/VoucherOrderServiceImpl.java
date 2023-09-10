@@ -5,6 +5,7 @@ import cn.hutool.core.util.BooleanUtil;
 import com.wh.dto.Result;
 import com.wh.entity.VoucherOrder;
 import com.wh.mapper.VoucherOrderMapper;
+import com.wh.mysqlReadWrite.annotation.Master;
 import com.wh.service.ISeckillVoucherService;
 import com.wh.service.IVoucherOrderService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -132,6 +133,7 @@ public class VoucherOrderServiceImpl extends ServiceImpl<VoucherOrderMapper, Vou
     }
 
     @Transactional
+    @Master
     public void createVoucherOrder(VoucherOrder voucherOrder) {
         //同样不能从UserHolder中取
         Long userId = voucherOrder.getId();

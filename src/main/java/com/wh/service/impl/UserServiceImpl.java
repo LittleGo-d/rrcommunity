@@ -10,6 +10,7 @@ import com.wh.dto.Result;
 import com.wh.dto.UserDTO;
 import com.wh.entity.User;
 import com.wh.mapper.UserMapper;
+import com.wh.mysqlReadWrite.annotation.Master;
 import com.wh.service.IUserService;
 import com.wh.utils.RegexUtils;
 import com.wh.utils.SystemConstants;
@@ -89,6 +90,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     }
 
     @Override
+    @Master
     public Result login(LoginFormDTO loginForm, HttpSession session) {
         //比对验证码
         String code = redisTemplate.opsForValue().get(LOGIN_CODE_KEY + loginForm.getPhone());

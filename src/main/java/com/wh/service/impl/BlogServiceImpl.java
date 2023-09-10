@@ -10,6 +10,8 @@ import com.wh.dto.UserDTO;
 import com.wh.entity.Blog;
 import com.wh.entity.User;
 import com.wh.mapper.BlogMapper;
+import com.wh.mysqlReadWrite.annotation.Master;
+import com.wh.mysqlReadWrite.annotation.Slave;
 import com.wh.service.IBlogService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.wh.service.IUserService;
@@ -48,6 +50,7 @@ public class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements IB
     private StringRedisTemplate stringRedisTemplate;
 
     @Override
+    @Slave
     public Result queryHotBlog(Integer current) {
         // 根据用户查询
         Page<Blog> page = query()
@@ -64,6 +67,7 @@ public class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements IB
     }
 
     @Override
+    @Master
     public Result queryBlogById(Long id) {
         //查询blog
         Blog blog = getById(id);
@@ -89,6 +93,7 @@ public class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements IB
     }
 
     @Override
+    @Master
     public Result likeBlog(Long id) {
         Long userId = UserHolder.getUser().getId();
         //查询redis是否存在用户
@@ -116,6 +121,7 @@ public class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements IB
     }
 
     @Override
+    @Slave
     public Result queryBlogLikes(Long id) {
         String key = BLOG_LIKED_KEY + id;
         //查询前5
@@ -136,6 +142,7 @@ public class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements IB
     }
 
     @Override
+    @Slave
     public Result queryBlogOfFollow(Long max, Integer offset) {
         // 1.获取当前用户
         Long userId = UserHolder.getUser().getId();

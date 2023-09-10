@@ -5,6 +5,7 @@ import com.wh.dto.Result;
 import com.wh.entity.Voucher;
 import com.wh.mapper.VoucherMapper;
 import com.wh.entity.SeckillVoucher;
+import com.wh.mysqlReadWrite.annotation.Master;
 import com.wh.service.ISeckillVoucherService;
 import com.wh.service.IVoucherService;
 import com.wh.utils.RedisConstants;
@@ -40,6 +41,7 @@ public class VoucherServiceImpl extends ServiceImpl<VoucherMapper, Voucher> impl
 
     @Override
     @Transactional
+    @Master
     public void addSeckillVoucher(Voucher voucher) {
         // 保存优惠券
         save(voucher);

@@ -6,6 +6,8 @@ import com.wh.dto.Result;
 import com.wh.dto.UserDTO;
 import com.wh.entity.Follow;
 import com.wh.mapper.FollowMapper;
+import com.wh.mysqlReadWrite.annotation.Master;
+import com.wh.mysqlReadWrite.annotation.Slave;
 import com.wh.service.IFollowService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.wh.service.IUserService;
@@ -35,6 +37,7 @@ public class FollowServiceImpl extends ServiceImpl<FollowMapper, Follow> impleme
     private IUserService userService;
 
     @Override
+    @Master
     public Result follow(Long followUserId, Boolean isFollow) {
         // 1.获取登录用户
         Long userId = UserHolder.getUser().getId();
@@ -63,6 +66,7 @@ public class FollowServiceImpl extends ServiceImpl<FollowMapper, Follow> impleme
     }
 
     @Override
+    @Slave
     public Result isFollow(Long followUserId) {
         // 1.获取登录用户
         Long userId = UserHolder.getUser().getId();
@@ -73,6 +77,7 @@ public class FollowServiceImpl extends ServiceImpl<FollowMapper, Follow> impleme
     }
 
     @Override
+    @Slave
     public Result followCommons(Long id) {
         // 1.获取当前用户
         Long userId = UserHolder.getUser().getId();

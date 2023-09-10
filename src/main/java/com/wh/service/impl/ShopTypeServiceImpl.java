@@ -6,6 +6,7 @@ import com.wh.dto.Result;
 import com.wh.entity.Shop;
 import com.wh.entity.ShopType;
 import com.wh.mapper.ShopTypeMapper;
+import com.wh.mysqlReadWrite.annotation.Slave;
 import com.wh.service.IShopTypeService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.wh.utils.RedisConstants;
@@ -31,6 +32,7 @@ public class ShopTypeServiceImpl extends ServiceImpl<ShopTypeMapper, ShopType> i
     private StringRedisTemplate stringRedisTemplate;
 
     @Override
+    @Slave
     public Result queryTypeList() {
         //先在redis中查询
         String typeJson = stringRedisTemplate.opsForValue().get(CACHE_SHOP_TYPE_KEY);
